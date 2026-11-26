@@ -32,6 +32,13 @@ def main() -> None:
     with open(path, "w", encoding="utf-8", newline="") as f:
         f.write(TEXT)
 
+    # Read it back: the sealed scorer reads this same file, so confirm
+    # what landed on disk is byte-for-byte the text we meant to enter.
+    with open(path, "r", encoding="utf-8", newline="") as f:
+        written = f.read()
+    assert written == TEXT, "entry.txt on disk differs from TEXT"
+    assert 1 <= len(written) <= 1000 and written.strip()
+
 
 if __name__ == "__main__":
     main()
